@@ -1,6 +1,5 @@
 import heapq
 import math
-from typing import List, Tuple, Optional, Set, Dict
 from enum import Enum
 
 class HexOrientation(Enum):
@@ -8,7 +7,7 @@ class HexOrientation(Enum):
     FLAT_TOP = "flat"
 
 class HexGrid:
-    def __init__(self, grid: List[List[int]], orientation: HexOrientation = HexOrientation.POINTY_TOP):
+    def __init__(self, grid, orientation = HexOrientation.POINTY_TOP):
         """
         Initialize hexagonal grid pathfinder.
         
@@ -43,7 +42,7 @@ class HexGrid:
                 5: (-1, -1)  # Northwest
             }
     
-    def get_neighbors(self, row: int, col: int) -> List[Tuple[int, int]]:
+    def get_neighbors(self, row, col):
         """Get valid neighboring hexagon coordinates."""
         neighbors = []
         
@@ -69,13 +68,13 @@ class HexGrid:
         
         return neighbors
     
-    def is_valid(self, row: int, col: int) -> bool:
+    def is_valid(self, row, col):
         """Check if coordinates are within bounds and walkable."""
         return (0 <= row < self.rows and 
                 0 <= col < self.cols and 
                 self.grid[row][col] == 0)
     
-    def hex_distance(self, a: Tuple[int, int], b: Tuple[int, int]) -> float:
+    def hex_distance(self, a, b):
         """Calculate hexagonal distance between two points."""
         r1, c1 = a
         r2, c2 = b
@@ -103,7 +102,7 @@ class HexGrid:
         
         return (abs(x1 - x2) + abs(y1 - y2) + abs(z1 - z2)) / 2
     
-    def get_direction(self, from_pos: Tuple[int, int], to_pos: Tuple[int, int]) -> Optional[int]:
+    def get_direction(self, from_pos, to_pos):
         """Get direction index from one hex to adjacent hex."""
         dr = to_pos[0] - from_pos[0]
         dc = to_pos[1] - from_pos[1]
@@ -124,8 +123,7 @@ class HexGrid:
         
         return None
     
-    def jump_in_direction(self, start: Tuple[int, int], direction: int, 
-                         goal: Tuple[int, int], max_distance: int = 100) -> Optional[Tuple[int, int]]:
+    def jump_in_direction(self, start, direction, goal, max_distance= 100):
         """
         Jump in a specific direction until finding a jump point or obstacle.
         
@@ -169,7 +167,7 @@ class HexGrid:
         
         return current
     
-    def has_forced_neighbors(self, pos: Tuple[int, int], came_from_direction: int) -> bool:
+    def has_forced_neighbors(self, pos, came_from_direction):
         """
         Check if position has forced neighbors due to obstacles.
         In hexagonal grids, this is when we have walkable neighbors
@@ -185,7 +183,7 @@ class HexGrid:
         # If we have obstacles blocking some directions, this could be a jump point
         return accessible_count < total_possible and accessible_count >= 3
     
-    def get_all_hex_neighbors(self, row: int, col: int) -> List[Tuple[int, int]]:
+    def get_all_hex_neighbors(self, row, col):
         """Get all 6 potential neighbor positions (including blocked ones)."""
         neighbors = []
         
@@ -209,7 +207,7 @@ class HexGrid:
         
         return neighbors
     
-    def find_path(self, start: Tuple[int, int], goal: Tuple[int, int]) -> List[Tuple[int, int]]:
+    def find_path(self, start, goal):
         """
         Find path using A* with hexagonal jump point optimization.
         """
@@ -223,8 +221,8 @@ class HexGrid:
         open_set = [(0, 0, start)]
         heapq.heapify(open_set)
         
-        closed_set: Set[Tuple[int, int]] = set()
-        came_from: Dict[Tuple[int, int], Tuple[int, int]] = {}
+        closed_set = set()
+        came_from = {}
         g_score = {start: 0}
         f_score = {start: self.hex_distance(start, goal)}
         
@@ -274,8 +272,7 @@ class HexGrid:
         return []
 
 
-def print_hex_grid_with_path(grid: List[List[int]], path: List[Tuple[int, int]], 
-                            start: Tuple[int, int], goal: Tuple[int, int]):
+def print_hex_grid_with_path(grid, path, start, goal):
     """Print hexagonal grid with path visualization."""
     display_grid = [row[:] for row in grid]
     
@@ -288,7 +285,7 @@ def print_hex_grid_with_path(grid: List[List[int]], path: List[Tuple[int, int]],
     display_grid[start[0]][start[1]] = 3
     display_grid[goal[0]][goal[1]] = 4
     
-    symbols = {0: '.', 1: '#', 2: '*', 3: 'S', 4: 'G'}
+    symbols = {0: '.', 1: '#', 2: 'P', 3: 'S', 4: 'G'}
     
     # Print with hexagonal offset for visualization
     for i, row in enumerate(display_grid):

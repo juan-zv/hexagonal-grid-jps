@@ -5,13 +5,13 @@ The goal of this project is to implement Jump Point Search (JPS) for a 2D hexago
 
 ## Instructions
 1. Install uv
-    ```python
-        pip install uv
-    ```
+```python
+pip install uv
+```
 2. Run the script using uv
-    ```python
-        uv run main.py
-    ```
+```python
+uv run main.py
+```
 
 ## Features
 JPS is an optimization of the A* algorithm that skips over nodes that are not necessary to find the shortest path. It does this by identifying "jump points" in the grid, which are nodes that can be used to jump over other nodes. The algorithm prunes branches that are not necessary to find the shortest path, which reduces the number of nodes that need to be explored.
