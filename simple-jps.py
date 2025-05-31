@@ -1,5 +1,4 @@
 import heapq
-import math
 
 class JumpPointSearch:
     def __init__(self, grid):
@@ -25,7 +24,7 @@ class JumpPointSearch:
         """Octile distance heuristic for 8-directional movement"""
         dx = abs(a[0] - b[0])
         dy = abs(a[1] - b[1])
-        return max(dx, dy) + (math.sqrt(2) - 1) * min(dx, dy)
+        return max(dx, dy) + ((2 ** 0.5) - 1) * min(dx, dy)
     
     def get_natural_neighbors(self, node, parent):
         """Get natural neighbors based on direction from parent"""
@@ -223,7 +222,7 @@ class JumpPointSearch:
                 if dx == 0 or dy == 0:
                     distance = max(dx, dy)  # Straight line
                 else:
-                    distance = math.sqrt(dx*dx + dy*dy)  # Diagonal
+                    distance = (dx*dx + dy*dy) ** 0.5
                 
                 tentative_g = g_score[current] + distance
                 
@@ -261,7 +260,7 @@ if __name__ == "__main__":
             print(f"  {i+1}. ({row}, {col})")
         
         # Visualize the path
-        print("\nGrid visualization (P = path, # = obstacle, . = empty):")
+        print("\nGrid visualization (P = path(jump points), # = obstacle, . = empty):")
         for r in range(len(grid)):
             row_str = ""
             for c in range(len(grid[0])):
