@@ -17,7 +17,7 @@ pip install uv
 ```python
 uv run main.py
 ```
-☝️ If you are interested in the original JPS algorithm for a square grid, you can run:
+🤓☝️ If you are interested in the original JPS algorithm for a square grid, you can run:
 ```python
 uv run simple-jps.py
 ```
